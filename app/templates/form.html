@@ -1,0 +1,25 @@
+{% extends "index.html" %}
+
+{% block form %}
+<script>
+	function sampleSearch(samples)
+	{
+		var rand = Math.round(Math.random() * (samples.length - 1));
+		form = document.forms['query'];
+		form.elements['query'].value = samples[rand];
+	}
+</script>
+<form action="" method="post" name="query">
+  {{ form.hidden_tag() }}
+  <p>
+      Please enter search keywords:<br>
+      {{ form.query(size=100) }}<br>
+      {% for error in form.query.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+  </p>
+  <br>
+  <a href="javascript:sampleSearch({{samples}});">Sample Search</a>
+  <p><input type="submit" value="Search"></p>
+</form>
+{% endblock %}
