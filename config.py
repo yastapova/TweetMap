@@ -1,4 +1,4 @@
 WTF_CSRF_ENABLED = True
 SECRET_KEY = 'this-is-super-secret'
 
-SAMPLE_QUERIES = ['global warming', 'country music', 'the Avengers', 'Twitter']
+SAMPLE_QUERIES = ['pizza', 'country music', 'Avengers', 'Twitter', 'chinese food']
