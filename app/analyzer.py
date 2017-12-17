@@ -1,10 +1,11 @@
-import re, urllib
+import re, urllib, random
 import twitter
 import geopy, us
 from textblob import TextBlob
 
 import keys
 from locations import locations
+from config import SAMPLE_QUERIES
 
 api = twitter.Api(consumer_key=keys.CONSUMER_KEY,
                   consumer_secret=keys.CONSUMER_SECRET,
@@ -16,29 +17,45 @@ geoloc = geopy.geocoders.Nominatim()
 # # #  UTILS  # # #
 
 def append_to_file(filename, data):
-	with open(filename, "a") as f:
-		f.write('\t'.join(data))
+	with open(filename, encoding="utf-8", mode="a") as f:
+		f.write(data)
+
+def clean_data(data):
+	text = data[0]
+	loc = data[1]
+	sent = data[2]
+
+	text = '%r' % text
+	data = (text, loc, sent)
+	data = '\t'.join(data)
+	data = data + '\n'
+	return data
 
 def process_tweet(tweet):
 	loc = get_location(tweet)
-	if(loc == ''):
+	if(loc == '' or loc == None):
 		return None
 
 	text = tweet['text']
 	sent = get_sentiment(text)
+	sent = str(sent)
 
 	return (text, loc, sent)
 
 def make_requests(topic):
-	filename = re.sub(' ', '_', topic)
+	filename = re.sub(' ', '_', topic) + '.txt'
 	data = request_data(topic)
 
 	if(data == None or len(data) == 0):
 		return
 
 	for tweet in data:
-		info = process_tweet(tweet)
-		append_to_file(filename, info)
+		info = process_tweet(tweet.AsDict())
+		if(info == None):
+			continue
+
+		info = clean_data(info)
+		append_to_file('data\\' + filename, info)
 
 
 # # #  TWITTER API  # # #
@@ -57,8 +74,13 @@ def request_data(query):
 # # #  LOCATIONS  # # #
 
 def get_coord_location(coords):
+	global geoloc
+	coords = coords['coordinates']
+	coords = geopy.point.Point(coords[1], coords[0])
+
 	loc = geoloc.reverse(coords)
 	if(loc is None):
+		print("none")
 		return ''
 
 	loc = loc.raw
@@ -87,7 +109,10 @@ def get_text_location(text):
 			return locations[s]
 
 def get_location(tweet):
-	coords = tweet['coordinates']
+	if('coordinates' in tweet):
+		coords = tweet['coordinates']
+	else:
+		coords = ''
 	result = ''
 
 	if(coords != None and coords != ''):
@@ -102,7 +127,9 @@ def get_location(tweet):
 		if(user == None or len(user) == 0):
 			return result
 
-		loc = user['location']
+		loc = ''
+		if('location' in user):
+			loc = user['location']
 		if(loc == None or loc == ''):
 			return result
 
@@ -120,9 +147,19 @@ def get_location(tweet):
 def get_sentiment(text):
 	blob = TextBlob(text)
 	sent = blob.sentiment.polarity
-	return sen
+	return sent
 
 
 # # #  DATA COLLECTION  # # #
 
-def auto_make_query():
+def auto_make_query(index):
+	query = SAMPLE_QUERIES[index]
+	print('Running search on: ' + query)
+	make_requests(query)
+
+def auto_make_queries():
+	for i in range(0,len(SAMPLE_QUERIES)):
+		auto_make_query(i)
+
+if __name__ == '__main__':
+	auto_make_query()
