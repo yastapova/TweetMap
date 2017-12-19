@@ -16,5 +16,14 @@
       {% endif %}
     {% endwith %}
     {% block form %}{% endblock %}
+    <div>
+      {% if sent_data %}
+      <ul>
+        {% for state in sent_data %}
+        <li>{{ state }} :: {{ sent_data[state] }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
   </body>
 </html>

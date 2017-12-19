@@ -62,6 +62,23 @@ def make_requests(topic):
 
 	return total
 
+def make_requests_no_file(topic):
+	result = []
+	data = request_data(topic)
+
+	if(data == None or len(data) == 0):
+		return
+
+	total = 0
+
+	for tweet in data:
+		info = process_tweet(tweet.AsDict())
+		if(info == None):
+			continue
+
+		result.append(info)
+
+	return result
 
 # # #  TWITTER API  # # #
 
@@ -85,7 +102,6 @@ def get_coord_location(coords):
 
 	loc = geoloc.reverse(coords)
 	if(loc is None):
-		print("none")
 		return ''
 
 	loc = loc.raw
