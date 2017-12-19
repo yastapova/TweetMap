@@ -21,5 +21,6 @@ def index():
 
 @app.route('/collect', methods=['GET'])
 def collect():
-	auto_make_queries()
-	return 'Auto Querying'
+	topics = auto_make_queries()
+	return render_template('collect.html',
+							topics=topics)

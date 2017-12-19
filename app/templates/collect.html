@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <title>TweetMap | Collect Data</title>
+  </head>
+  <body>
+    <div>TweetMap: <a href="/index">Home</a> | <a href="/collect">Collect Data</a></div>
+    <hr>
+    <h1>Collected Data For Topics:</h1>
+      <ul>
+      {% for topic in topics %}
+          <li>{{ topic }} = {{ topics[topic] }}</li>
+      {% endfor %}
+      </ul>
+      <p><a href="/index">Back</a> | <a href="/collect">Collect Again</a></p>
+  </body>
+</html>

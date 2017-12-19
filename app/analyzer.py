@@ -49,6 +49,8 @@ def make_requests(topic):
 	if(data == None or len(data) == 0):
 		return
 
+	total = 0
+
 	for tweet in data:
 		info = process_tweet(tweet.AsDict())
 		if(info == None):
@@ -56,6 +58,9 @@ def make_requests(topic):
 
 		info = clean_data(info)
 		append_to_file('data\\' + filename, info)
+		total += 1
+
+	return total
 
 
 # # #  TWITTER API  # # #
@@ -155,11 +160,14 @@ def get_sentiment(text):
 def auto_make_query(index):
 	query = SAMPLE_QUERIES[index]
 	print('Running search on: ' + query)
-	make_requests(query)
+	num_collected = make_requests(query)
+
+	return (query, num_collected)
 
 def auto_make_queries():
+	tweets_found = {}
 	for i in range(0,len(SAMPLE_QUERIES)):
-		auto_make_query(i)
+		topic, num = auto_make_query(i)
+		tweets_found[topic] = num
 
-if __name__ == '__main__':
-	auto_make_query()
+	return tweets_found
