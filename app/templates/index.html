@@ -1,6 +1,8 @@
 <html>
   <head>
     <title>TweetMap</title>
+    <meta charset="utf-8">
+    <script src="http://d3js.org/d3.v3.min.js"></script>
   </head>
   <body>
     <div>TweetMap: <a href="/index">Home</a> | <a href="/collect">Collect Data</a></div>
@@ -16,7 +18,7 @@
       {% endif %}
     {% endwith %}
     {% block form %}{% endblock %}
-    <div>
+    <!-- <div>
       {% if sent_data %}
       <ul>
         {% for state in sent_data %}
@@ -24,6 +26,10 @@
         {% endfor %}
       </ul>
       {% endif %}
-    </div>
+    </div> -->
+    <div id="map"></div>
+    {% if sent_data %}
+    <script src="../static/run_vis.js"></script>
+    {% endif %}
   </body>
 </html>

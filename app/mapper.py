@@ -71,4 +71,9 @@ def get_state_sentiments(topic):
 	print('Aggregating data')
 	data = aggregate_data(data)
 
+	with open('app/static/map_data.csv', encoding='utf-8', mode='w') as f:
+		f.write('state' + ',' + 'sentiment' + '\n')
+		for d in data:
+			f.write(d + ',' + str(data[d]) + '\n')
+
 	return data
