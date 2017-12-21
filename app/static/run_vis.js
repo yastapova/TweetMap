@@ -34,7 +34,7 @@ var color = d3.scale.linear()
 var legendText = ["Positive", "Neutral", "Negative", "No Data"];
 
 d3.json("static/us-states.json", function(json) {
-    d3.csv("static/map_data.csv", function(dat) {
+    d3.csv("static/map_data.csv?q="+Math.random(), function(dat) {
         for(var i = 0; i < json.features.length; i++)
         {
             var jState = json.features[i].properties.abbrev;
