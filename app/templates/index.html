@@ -3,30 +3,27 @@
     <title>TweetMap</title>
     <meta charset="utf-8">
     <script src="http://d3js.org/d3.v3.min.js"></script>
+    <style type="text/css">
+      /* Style for Custom Tooltip */
+      div.tooltip {   
+        position: absolute;           
+        text-align: center;           
+        width: 60px;                  
+        height: 28px;                 
+        padding: 2px;             
+        font: 12px sans-serif;        
+        background: yellow;   
+        border: 0px;      
+        border-radius: 8px;           
+        pointer-events: none;         
+      }
+    </style>
   </head>
   <body>
     <div>TweetMap: <a href="/index">Home</a> | <a href="/collect">Collect Data</a></div>
     <hr>
     <h1>TweetMap Sentiment Analyzer</h1>
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-        {% for message in messages %}
-            <li>{{ message }} </li>
-        {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
     {% block form %}{% endblock %}
-    <!-- <div>
-      {% if sent_data %}
-      <ul>
-        {% for state in sent_data %}
-        <li>{{ state }} :: {{ sent_data[state] }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %}
-    </div> -->
     <div id="map"></div>
     {% if sent_data %}
     <script src="../static/run_vis.js"></script>

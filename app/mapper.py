@@ -23,7 +23,7 @@ def get_data_from_file(topic):
 		lines = f.readlines()
 
 		for line in lines:
-			_, abbrev, sent = line.split('\t')
+			abbrev, sent = line.split('\t')
 			if(abbrev in data):
 				data[abbrev].append(float(sent.strip()))
 			else:
@@ -35,8 +35,8 @@ def get_fresh_data(topic, data):
 	result = make_requests_no_file(topic)
 
 	for tweet in result:
-		state = tweet[1]
-		sent = tweet[2]
+		state = tweet[0]
+		sent = tweet[1]
 
 		if(state in data):
 			data[state].append(float(sent.strip()))

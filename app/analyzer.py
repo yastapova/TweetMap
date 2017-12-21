@@ -21,12 +21,10 @@ def append_to_file(filename, data):
 		f.write(data)
 
 def clean_data(data):
-	text = data[0]
-	loc = data[1]
-	sent = data[2]
+	loc = data[0]
+	sent = data[1]
 
-	text = '%r' % text
-	data = (text, loc, sent)
+	data = (loc, sent)
 	data = '\t'.join(data)
 	data = data + '\n'
 	return data
@@ -40,7 +38,7 @@ def process_tweet(tweet):
 	sent = get_sentiment(text)
 	sent = str(sent)
 
-	return (text, loc, sent)
+	return (loc, sent)
 
 def make_requests(topic):
 	filename = re.sub(' ', '_', topic) + '.txt'
