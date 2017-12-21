@@ -15,6 +15,8 @@ TweetMap requires the user to have Python 3 and pip installed.
 3. In the root directory of the cloned repository, run ```python -m venv flask```. If it executes successfully, you should see a folder named ```flask``` in the root directory now.
 4. Run the following commands:
 ```
+flask\Scripts\pip install flask
+flask\Scripts\pip install flask-wtf
 flask\Scripts\pip install python-twitter
 flask\Scripts\pip install geopy
 flask\Scripts\pip install textblob
