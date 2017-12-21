@@ -1,4 +1,3 @@
-data/
 app/static/map_data.csv
 flask/
 __pycache__/
