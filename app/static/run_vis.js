@@ -4,35 +4,44 @@
 var width = 1000;
 var height = 500;
 
+// Clear canvas before loading new data
 d3.select("svg").remove();
 
+// Map definition
 var projection = d3.geo.albersUsa()
     .translate([width/2, height/2])
     .scale([1000]);
 
+// Drawing the map
 var path = d3.geo.path()
     .projection(projection);
 
+// Add the canvas to the page
 var svg = d3.select("div#map")
     .append("svg")
     .attr("width", width)
     .attr("height", height);
 
+// Color scale for the map
 var colorscale = d3.scale.linear()
     .domain([-1.0, 0, 1.0])
     .range(["red", "white", "skyblue"]);
 
+// Define tooltips
 var tooltip = d3.select("body")
         .append("div")   
         .attr("class", "tooltip")               
         .style("opacity", 0);
 
+// Color scale for the legend
 var color = d3.scale.linear()
     .domain([0,1,2,3])
     .range(["gray", "red", "white", "skyblue"])
 
+// Text for the legend
 var legendText = ["Positive", "Neutral", "Negative", "No Data"];
 
+// Load all the data into the map
 d3.json("static/us-states.json", function(json) {
     d3.csv("static/map_data.csv?q="+Math.random(), function(dat) {
         for(var i = 0; i < json.features.length; i++)
@@ -53,6 +62,7 @@ d3.json("static/us-states.json", function(json) {
             }
         }
 
+        // draw the states
         svg.selectAll("path")
             .data(json.features)
             .enter()
@@ -74,6 +84,7 @@ d3.json("static/us-states.json", function(json) {
                     return colorscale(sent);
                 }
             })
+            // highlight state and display the tooltip on mouseover
             .on("mouseover", function(d) {
                 var txt = d.properties.abbrev + ": ";
                 if(d.properties.sentiment == -10) {
@@ -92,6 +103,7 @@ d3.json("static/us-states.json", function(json) {
                    .style("left", (d3.event.pageX) + "px")     
                    .style("top", (d3.event.pageY - 28) + "px"); 
             })
+            // unhighlight state and make tooltip disappear on mouseout
             .on("mouseout", function(d) {
                 d3.select(this)
                     .style("stroke", "#000")
@@ -102,6 +114,7 @@ d3.json("static/us-states.json", function(json) {
                    .style("opacity", 0);
             });
 
+        // Create map legend
         // Modified Legend Code from Mike Bostock: http://bl.ocks.org/mbostock/3888852
         var legend = d3.select("body").append("svg")
             .attr("class", "legend")

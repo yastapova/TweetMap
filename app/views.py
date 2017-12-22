@@ -9,6 +9,7 @@ query_topic = ''
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def index():
+	"""Creates the home page view."""
 	form = QueryForm()
 	if form.validate_on_submit():
 		flash('Search requested for keywords="%s"' % form.query.data)
@@ -28,6 +29,7 @@ def index():
 
 @app.route('/collect', methods=['GET'])
 def collect():
+	"""Creates the data collector view."""
 	topics = auto_make_queries()
 	return render_template('collect.html',
 							topics=topics)
