@@ -11,6 +11,8 @@ This project is built mostly in [Python 3](https://www.python.org/), with some J
 TweetMap requires the user to have [Python 3](https://www.python.org/downloads/) and [pip](https://pip.pypa.io/en/stable/installing/#do-i-need-to-install-pip) installed. Python 3.4+ comes with pip, so you will not need to install it separately.
 
 Other requirements that are addressed as part of **Set Up**:
+- [flask](http://flask.pocoo.org/)
+- [virtualenv](https://virtualenv.pypa.io/en/stable/)
 - [python-twitter](http://python-twitter.readthedocs.io/en/latest/index.html)
 - [geopy](http://geopy.readthedocs.io/en/latest/)
 - [us](https://pypi.python.org/pypi/us)
